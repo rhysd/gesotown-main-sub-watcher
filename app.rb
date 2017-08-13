@@ -70,7 +70,7 @@ def i_want_this?(text)
   end
 end
 
-def notify(client, tweet)
+def notify_me(client, tweet)
   url = tweet.url.to_s
   puts "Notify: text is '#{tweet.text}', URL is '#{url}'"
   client.create_direct_message('Linda_pp', 'Target gear was found in gesotown: ' + url)
@@ -90,5 +90,5 @@ def run
     config.access_token_secret = ENV['TWITTER_ACCESS_SECRET']
   end
 
-  tweets_in_12hours(client).select{|t| i_want_this? t.text }.tap{|ts| puts "I want #{ts.size} gear(s)" }.each{|t| notify(client, t)}
+  tweets_in_12hours(client).select{|t| i_want_this? t.text }.tap{|ts| puts "I want #{ts.size} gear(s)" }.each{|t| notify_me(client, t)}
 end
