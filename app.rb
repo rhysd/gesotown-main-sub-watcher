@@ -6,8 +6,6 @@ Bundler.require
 require 'active_support'
 require 'active_support/core_ext/numeric/time'
 
-require 'pp'
-
 SUB_GEARS = %w{
   インク効率アップ[(（]メイン[）)]
   インク効率アップ[(（]サブ[）)]
@@ -61,10 +59,10 @@ def parse_text(text)
   { special_main: main[1], brand_sub: sub[1] }
 end
 
-def target_gear?(text)
+def i_want_this?(text)
   begin
     p = parse_text text
-    puts p
+    puts "Parsed: #{p}"
     p[:special_main] == p[:brand_sub]
   rescue TextParseFailed => e
     STDERR.puts e
@@ -92,5 +90,5 @@ def run
     config.access_token_secret = ENV['TWITTER_ACCESS_SECRET']
   end
 
-  tweets_in_12hours(client).select{|t| target_gear? t.text }.tap{|ts| puts "#{ts.size} targets found" }.each{|t| notify(client, t)}
+  tweets_in_12hours(client).select{|t| i_want_this? t.text }.tap{|ts| puts "I want #{ts.size} gears" }.each{|t| notify(client, t)}
 end
