@@ -43,7 +43,7 @@ end
 
 def tweets_in_12hours(client)
   limit = Time.now - 12.hours
-  client.user_timeline(891009577252077569).select{|tw| tw.created_at > limit }.tap{|tws| puts "#{tws.size} tweets found" }
+  client.user_timeline(891009577252077569).select{|tw| tw.created_at > limit }
 end
 
 def parse_text(text)
@@ -73,14 +73,17 @@ end
 def notify_me(client, tweet)
   url = tweet.url.to_s
   puts "Notify: text is '#{tweet.text}', URL is '#{url}'"
-  client.create_direct_message('Linda_pp', 'Target gear was found in gesotown: ' + url)
+  client.create_direct_message('Linda_pp', 'Target gear was found in Geso-Town: ' + url)
 end
 
+# Heroku scheduler only privides daily/hourly/per-10min scheduling.
+# Choose hourly sched and run per 6 hours by checking the time in this script.
 def run?
   Time.now.hour % 6 == 0
 end
 
 def run
+  # Run this script once per 6 hours
   return unless run?
 
   client = Twitter::REST::Client.new do |config|
@@ -90,5 +93,9 @@ def run
     config.access_token_secret = ENV['TWITTER_ACCESS_SECRET']
   end
 
-  tweets_in_12hours(client).select{|t| i_want_this? t.text }.tap{|ts| puts "I want #{ts.size} gear(s)" }.each{|t| notify_me(client, t)}
+  tweets = tweets_in_12hours(client)
+  puts "#{tweets.size} tweets retrieved"
+  tweets = tweets.select{|t| i_want_this? t.text }
+  puts "I want #{tweets.size} gear(s)"
+  tweets.each{|t| notify_me(client, t)}
 end
