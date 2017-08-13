@@ -6,7 +6,7 @@ Bundler.require
 require 'active_support'
 require 'active_support/core_ext/numeric/time'
 
-SUB_GEARS = %w{
+POWERS = %w{
   インク効率アップ[(（]メイン[）)]
   インク効率アップ[(（]サブ[）)]
   インク回復力アップ
@@ -47,10 +47,10 @@ def tweets_in_12hours(client)
 end
 
 def parse_text(text)
-  gears = "(#{SUB_GEARS.join '|'})"
+  gears = "(#{POWERS.join '|'})"
 
-  main = text.match(/特別ギアパワー：#{gears}/)
-  sub = text.match(/ブランド：[^(]+\(#{gears}\)/)
+  main = text.match /特別ギアパワー：#{gears}/
+  sub = text.match /ブランド：[^(]+\(#{gears}\)/
 
   unless main && sub
     raise TextParseFailed.new "Failed to parse '#{text}': main: #{main}, sub: #{sub}"
@@ -90,5 +90,5 @@ def run
     config.access_token_secret = ENV['TWITTER_ACCESS_SECRET']
   end
 
-  tweets_in_12hours(client).select{|t| i_want_this? t.text }.tap{|ts| puts "I want #{ts.size} gears" }.each{|t| notify(client, t)}
+  tweets_in_12hours(client).select{|t| i_want_this? t.text }.tap{|ts| puts "I want #{ts.size} gear(s)" }.each{|t| notify(client, t)}
 end
