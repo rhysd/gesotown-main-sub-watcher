@@ -73,10 +73,14 @@ end
 def notify_me(client, tweets)
   previous = client.direct_messages.map &:text
   tweets.each do |t|
-    next if previous.any?{|m| m.include? t.id }
+    id = t.id.to_s
     url = t.url.to_s
+    if previous.any?{|m| m.include? id }
+      puts "This gear was already notified. Skipped: #{url}"
+      next
+    end
     puts "Notify: text is '#{t.text}', URL is '#{url}'"
-    msg = "Target gear was found in Geso-Town (id: #{t.id}): #{url}"
+    msg = "Target gear was found in Geso-Town (id: #{id}): #{url}"
     client.create_direct_message('Linda_pp', msg)
   end
 end
