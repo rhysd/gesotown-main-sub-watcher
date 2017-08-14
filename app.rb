@@ -77,13 +77,13 @@ def notify_me(client, tweet)
 end
 
 # Heroku scheduler only privides daily/hourly/per-10min scheduling.
-# Choose hourly sched and run per 6 hours by checking the time in this script.
+# Choose hourly sched and run per 3 hours by checking the time in this script.
 def run?
-  Time.now.hour % 6 == 0
+  Time.now.hour % 3 == 0
 end
 
 def run
-  # Run this script once per 6 hours
+  # Run this script once per 3 hours
   return unless run?
 
   client = Twitter::REST::Client.new do |config|
