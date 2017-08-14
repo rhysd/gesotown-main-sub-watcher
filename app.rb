@@ -70,10 +70,15 @@ def i_want_this?(text)
   end
 end
 
-def notify_me(client, tweet)
-  url = tweet.url.to_s
-  puts "Notify: text is '#{tweet.text}', URL is '#{url}'"
-  client.create_direct_message('Linda_pp', 'Target gear was found in Geso-Town: ' + url)
+def notify_me(client, tweets)
+  previous = client.direct_messages.map &:text
+  tweets.each do |t|
+    next if previous.any?{|m| m.include? t.id }
+    url = t.url.to_s
+    puts "Notify: text is '#{t.text}', URL is '#{url}'"
+    msg = "Target gear was found in Geso-Town (id: #{t.id}): #{url}"
+    client.create_direct_message('Linda_pp', msg)
+  end
 end
 
 # Heroku scheduler only privides daily/hourly/per-10min scheduling.
@@ -97,5 +102,5 @@ def run
   puts "#{tweets.size} tweets retrieved"
   tweets = tweets.select{|t| i_want_this? t.text }
   puts "I want #{tweets.size} gear(s)"
-  tweets.each{|t| notify_me(client, t)}
+  notify_me(client, tweets)
 end
