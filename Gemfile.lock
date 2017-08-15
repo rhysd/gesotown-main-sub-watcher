@@ -30,9 +30,12 @@ GEM
     minitest (5.10.3)
     multipart-post (2.0.0)
     naught (1.1.0)
+    power_assert (1.0.2)
     public_suffix (2.0.5)
     rake (12.0.0)
     simple_oauth (0.3.1)
+    test-unit (3.2.5)
+      power_assert
     thread_safe (0.3.6)
     twitter (6.1.0)
       addressable (~> 2.5)
@@ -56,6 +59,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   rake
+  test-unit
   twitter
 
 RUBY VERSION
