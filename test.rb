@@ -22,7 +22,7 @@ class ParseTextTest < Test::Unit::TestCase
       1回目の入荷です。
     EOS
     p = parse_text text
-    assert_equal(p[:special_main], 'インク効率アップ（サブ）')
+    assert_equal(p[:special_main], 'インク効率アップ(サブ)')
     assert_equal(p[:brand_sub], 'インク効率アップ(メイン)')
   end
 

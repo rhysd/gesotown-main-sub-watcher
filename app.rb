@@ -56,7 +56,11 @@ def parse_text(text)
     raise TextParseFailed.new "Failed to parse '#{text}': main: #{main}, sub: #{sub}"
   end
 
-  { special_main: main[1], brand_sub: sub[1] }
+  # Normalize parens
+  main = main[1].gsub(/[（）]/, '（' => '(', '）' => ')')
+  sub = sub[1].gsub(/[（）]/, '（' => '(', '）' => ')')
+
+  { special_main: main, brand_sub: sub }
 end
 
 def i_want_this?(text)
