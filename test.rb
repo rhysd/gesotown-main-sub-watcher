@@ -38,6 +38,12 @@ class ParseTextTest < Test::Unit::TestCase
     assert_equal(p[:special_main], 'ヒト移動速度アップ')
     assert_equal(p[:brand_sub], 'ヒト移動速度アップ')
   end
+
+  def test_parse_failure
+    assert_raise TextParseFailed do
+      parse_text 'this is dummy text'
+    end
+  end
 end
 
 class IWantThisTest < Test::Unit::TestCase
