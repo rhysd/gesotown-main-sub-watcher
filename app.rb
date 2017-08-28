@@ -38,6 +38,10 @@ POWERS = %w{
   受け身術
 }
 
+WANTED = {
+  'イカニンジャ' => 'イカダッシュ速度アップ',
+}
+
 class TextParseFailed < RuntimeError
 end
 
@@ -67,7 +71,7 @@ def i_want_this?(text)
   begin
     p = parse_text text
     puts "Parsed: #{p}"
-    p[:special_main] == p[:brand_sub]
+    p[:special_main] == p[:brand_sub] || WANTED[p[:special_main]] == WANTED[p[:brand_sub]]
   rescue TextParseFailed => e
     STDERR.puts e
     false
