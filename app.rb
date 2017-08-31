@@ -40,6 +40,7 @@ POWERS = %w{
 
 WANTED = {
   'イカニンジャ' => 'イカダッシュ速度アップ',
+  'ステルスジャンプ' => 'スーパージャンプ時間短縮',
 }
 
 class TextParseFailed < RuntimeError
