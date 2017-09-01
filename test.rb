@@ -80,4 +80,15 @@ class IWantThisTest < Test::Unit::TestCase
     EOS
     assert i_want_this?(text)
   end
+
+  def test_vip_pair
+    text = <<~EOS
+      ボーダービーニー(通常ギアパワー：スタートダッシュ)が入荷しました。
+      特別ギアパワー：イカニンジャ
+      ブランド：クラーゲス(イカダッシュ速度アップ)
+      スロット：1
+      1回目の入荷です。
+    EOS
+    assert i_want_this?(text)
+  end
 end

@@ -73,7 +73,7 @@ def i_want_this?(text)
     p = parse_text text
     puts "Parsed: #{p}"
     main_sub_matched = p[:special_main] == p[:brand_sub]
-    is_vip_pair = WANTED[p[:special_main]] && (WANTED[p[:special_main]] == WANTED[p[:brand_sub]])
+    is_vip_pair = WANTED[p[:special_main]] && (WANTED[p[:special_main]] == p[:brand_sub])
     main_sub_matched || is_vip_pair
   rescue TextParseFailed => e
     STDERR.puts e
