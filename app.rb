@@ -107,7 +107,7 @@ end
 
 def run
   # Run this script once per 3 hours
-  # return unless run?
+  return unless run?
 
   client = Twitter::REST::Client.new do |config|
     config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
@@ -120,5 +120,5 @@ def run
   puts "#{tweets.size} tweets retrieved"
   tweets = tweets.select{|t| i_want_this?(t.text) || popular_tweet?(t) }
   puts "I want #{tweets.size} gear(s)"
-  # notify_me(client, tweets)
+  notify_me(client, tweets)
 end
