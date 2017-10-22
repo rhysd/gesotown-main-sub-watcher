@@ -46,6 +46,27 @@ class ParseTextTest < Test::Unit::TestCase
   end
 end
 
+class PopularTweetTest < Test::Unit::TestCase
+  class MockTweet
+    attr_accessor :retweet_count
+    def initialize
+      @retweet_count = 0
+    end
+  end
+
+  def test_popular_tweet
+    tw = MockTweet.new
+    tw.retweet_count = 142
+    assert popular_tweet?(tw)
+  end
+
+  def test_non_popular_tweet
+    tw = MockTweet.new
+    tw.retweet_count = 42
+    assert !popular_tweet?(tw)
+  end
+end
+
 class IWantThisTest < Test::Unit::TestCase
   def test_i_dont_want
     text = <<~EOS
