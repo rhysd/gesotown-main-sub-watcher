@@ -48,9 +48,10 @@ end
 
 class PopularTweetTest < Test::Unit::TestCase
   class MockTweet
-    attr_accessor :retweet_count
+    attr_accessor :retweet_count, :favorite_count
     def initialize
       @retweet_count = 0
+      @favorite_count = 0
     end
   end
 
@@ -58,11 +59,16 @@ class PopularTweetTest < Test::Unit::TestCase
     tw = MockTweet.new
     tw.retweet_count = 142
     assert popular_tweet?(tw)
+
+    tw = MockTweet.new
+    tw.favorite_count = 142
+    assert popular_tweet?(tw)
   end
 
   def test_non_popular_tweet
     tw = MockTweet.new
     tw.retweet_count = 42
+    tw.favorite_count = 42
     assert !popular_tweet?(tw)
   end
 end

@@ -80,8 +80,8 @@ def i_want_this?(text)
   end
 end
 
-def popular_tweet?(tweet)
-  tweet.retweet_count >= 100
+def popular_tweet?(tw)
+  tw.retweet_count >= 50 || tw.favorite_count >= 50
 end
 
 def notify_me(client, tweets)
