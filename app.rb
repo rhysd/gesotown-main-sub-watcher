@@ -85,10 +85,6 @@ def popular_tweet?(tw)
 end
 
 def notify_me(client, tweets)
-  if tweets.empty?
-    puts 'No need to notify'
-    return
-  end
   previous = client.direct_messages.map &:text
   tweets.each do |t|
     id = t.id.to_s
@@ -132,5 +128,5 @@ def run
   puts "#{tweets.size} tweets retrieved"
   tweets = tweets.select{|t| i_want_this?(t.text) || popular_tweet?(t) }
   puts "I want #{tweets.size} gear(s)"
-  notify_me(client, tweets)
+  notify_me(client, tweets) unless tweets.empty?
 end
