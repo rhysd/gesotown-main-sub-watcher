@@ -85,6 +85,10 @@ def popular_tweet?(tw)
 end
 
 def notify_me(client, tweets)
+  if tweets.empty?
+    puts 'No need to notify'
+    return
+  end
   previous = client.direct_messages.map &:text
   tweets.each do |t|
     id = t.id.to_s
@@ -95,7 +99,15 @@ def notify_me(client, tweets)
     end
     puts "Notify: text is '#{t.text}', URL is '#{url}'"
     msg = "Target gear was found in Geso-Town (id: #{id}): #{url}"
-    client.create_direct_message('Linda_pp', msg)
+
+    # Use another account to send me a DM because sending DM myself is not notified.
+    notifier = Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['TWITTER_NOTIFY_CONSUMER_KEY']
+      config.consumer_secret     = ENV['TWITTER_NOTIFY_CONSUMER_SECRET']
+      config.access_token        = ENV['TWITTER_NOTIFY_ACCESS_TOKEN']
+      config.access_token_secret = ENV['TWITTER_NOTIFY_ACCESS_SECRET']
+    end
+    notifier.create_direct_message('Linda_pp', msg)
   end
 end
 
