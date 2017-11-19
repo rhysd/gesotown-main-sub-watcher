@@ -42,6 +42,8 @@ WANTED = {
   'ステルスジャンプ' => 'スーパージャンプ時間短縮',
 }
 
+SNS_POPULAR_THRESHOLD = 100
+
 class TextParseFailed < RuntimeError
 end
 
@@ -81,7 +83,7 @@ def i_want_this?(text)
 end
 
 def popular_tweet?(tw)
-  tw.retweet_count >= 50 || tw.favorite_count >= 50
+  tw.retweet_count >= SNS_POPULAR_THRESHOLD || tw.favorite_count >= SNS_POPULAR_THRESHOLD
 end
 
 def notify_me(client, tweets)
